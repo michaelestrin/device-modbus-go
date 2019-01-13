@@ -152,7 +152,9 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 }
 
 func (*Driver) Stop(force bool) error {
-	panic("implement me")
+	driver.Logger.Info(fmt.Sprintf("Stopping the driver"))
+	return nil
+	//panic("implement me")
 }
 
 func NewProtocolDriver() sdkModel.ProtocolDriver {

@@ -45,9 +45,32 @@ FailWaitTime = 10
   MaxCmdValueLen = 256
   RemoveCmd = ""
   RemoveCmdArgs = ""
-  ProfilesDir = ""
+  ProfilesDir = "./res"
 
 [Logging]
 EnableRemote = false
 File = "./device-Modbus.log"
 Level = "INFO"
+
+
+# Pre-define Schedule Configuration
+[[Schedules]]
+Name = "10sec-schedule"
+Frequency = "PT10S"
+
+[[ScheduleEvents]]
+Name = "readTemp"
+Schedule = "10sec-schedule"
+  [ScheduleEvents.Addressable]
+  HTTPMethod = "GET"
+  Path = "/api/v1/device/name/cometThermostat1/Temperature"
+
+# Pre-define Devices
+[[DeviceList]]
+  Name = "cometThermostat1"
+  Profile = "CometThermostat"
+  [DeviceList.Addressable]
+    name = "comet address"
+    Address = "/dev/ttyUSB0,9600,8,2,0"
+    Protocol = "RTU"
+    Path = "1"

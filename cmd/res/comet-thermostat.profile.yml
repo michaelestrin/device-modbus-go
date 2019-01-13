@@ -1,0 +1,39 @@
+name: "CometThermostat"
+manufacturer: "Comet Systems"
+model: "T0310"
+labels:
+- "temperature"
+description: "Comet Systems T0310 Thermostat Sensor using Modbus RTU"
+
+deviceResources:
+-
+  name: "Temperature"
+  description: "temp in degrees °C"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "49" }
+  properties:
+    value:
+      { type: "INT16", readWrite: "R", size: "1", scale: "1", minimum: "-300", maximum: "800", defaultValue: "0"}
+    units:
+      { type: "String", readWrite: "R", defaultValue: "Celcius"}
+
+resources:
+-
+  name: "Temperature"
+  get:
+  - { index: "1", operation: "get", object: "Temperature", parameter: "Temperature", property: "value" }
+
+commands:
+-
+  name: "Temperature"
+  get:
+    path: "/api/v1/device/{deviceId}/Temperature"
+    responses:
+      -
+        code: "200"
+        description: "Get the temperature from the device"
+        expectedValues: ["Temperature"]
+      -
+        code: "503"
+        description: "service unavailable"
+        expectedValues: []
